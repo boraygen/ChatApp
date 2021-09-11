@@ -7,4 +7,4 @@ Third Flutter Project to practice. A chat app, which uses Firebase as auth and d
 - Sign In and Register pages
 - Last UI configurations before setting Firebase up
 
-![](chat_app_01.gif)
+![First pages](chat_app_01.gif)
