@@ -24,3 +24,5 @@ Development will be on pause until I feel confident about how to set Firestore p
 - IMPROVEMENT: Email and password validation
 - REPLACED: PageView and BottomNavigationBar >> TabBarView and TabBar.
 - REMOVED: Menu button and Drawer
+
+![pre_0 2_gif](https://user-images.githubusercontent.com/78763264/133527322-7fdc6f7f-72f4-4b16-a0b3-572913589e7f.gif)
