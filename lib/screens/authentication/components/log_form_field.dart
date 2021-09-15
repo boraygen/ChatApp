@@ -7,8 +7,11 @@ class LogFormField extends StatelessWidget {
     @required this.text,
     @required this.onChanged,
     @required this.isPw,
+    this.inputType,
+    
   }) : super(key: key);
 
+  final TextInputType inputType;
   final String text;
   final Function onChanged;
   final bool isPw;
@@ -17,14 +20,16 @@ class LogFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: isPw,
+      keyboardType: inputType ?? TextInputType.text,
       decoration: InputDecoration(
         hintText: text,
+        hintStyle: const TextStyle(fontSize: 15.5),
         contentPadding: const EdgeInsets.symmetric(horizontal: kDefaultPadding * 0.4),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: kMainColor),
         ),
       ),
-      onChanged: onChanged,   
+      onChanged: onChanged,
     );
   }
 }
