@@ -1,3 +1,4 @@
+import 'package:chat_app/shared/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ Color kMainColor = Colors.orange[500];
 Color kAccentColor = Colors.indigo[400];
 
 //dark
-Color darkColor = Colors.grey[800].withOpacity(0.6);
+Color darkColor = Colors.grey[800].withOpacity(0.5);
 Color darkPrimaryTextColor = Colors.white;
 Color darkSecondaryTextColor = Colors.black87;
 const darkModeIcon = Icon(Icons.dark_mode_outlined);
@@ -26,6 +27,8 @@ Color kPrimaryTextColor = darkPrimaryTextColor;
 Color kSecondaryTextColor = darkSecondaryTextColor;
 Icon kModeIcon = darkModeIcon;
 
+//booleans
+bool registerSuccessful = true;
 
 //setting
 void changeMode()
@@ -45,5 +48,37 @@ void changeMode()
     kModeIcon = darkModeIcon;
   }
   kDarkMode = !kDarkMode;
+}
+
+bool validateBeforeLog(BuildContext context, String email, String pw1, String pw2)
+{
+  bool validation = true;
+  bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+  if(emailValid)
+  {
+    if(pw1.length < 6)
+    {
+
+      customSnackBar(context: context, type: -1, text: "Password must be at least 6 characters long!");
+
+      validation = false;
+    }
+    if(pw2 != null)
+    {
+      if(pw1 != pw2)
+      {
+        customSnackBar(context: context, type: -1, text: "Password don't match!");
+
+        validation = false;
+      }
+    }
+  }
+  else
+  {
+    customSnackBar(context: context, type: -1, text: "Invalid email!");
+    validation = false;
+  }
+
+  return validation;
 }
 

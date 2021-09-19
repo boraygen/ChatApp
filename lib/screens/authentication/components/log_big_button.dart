@@ -23,7 +23,7 @@ class LogBigButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.only(bottom: 2),
           alignment: Alignment.center,
-          width: size.width,
+          width: size.width < size.height ? size.width : size.height,
           height: 54,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40),
