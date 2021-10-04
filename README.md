@@ -29,6 +29,6 @@ Development will be on pause until I feel confident about how to set Firestore p
 
 ## 0.2
 
-I 
+I just pushed it to save the project before trying some big changes.
 
-- REPLACED: Dark colors changed - a bit brighter now
+- Updates will be declared in the next patch.
