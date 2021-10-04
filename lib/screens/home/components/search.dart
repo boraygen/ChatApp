@@ -1,5 +1,5 @@
+import 'package:chat_app/shared/colors.dart';
 import 'package:chat_app/shared/components/default_app_bar.dart';
-import 'package:chat_app/shared/shared.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {

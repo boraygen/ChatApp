@@ -1,19 +1,22 @@
 import 'package:chat_app/models/user_model.dart';
 import 'package:chat_app/screens/authentication/components/log_big_button.dart';
+import 'package:chat_app/screens/authentication/components/log_big_button_loading.dart';
 import 'package:chat_app/screens/authentication/components/log_form_field.dart';
 import 'package:chat_app/screens/authentication/components/logout_icon_button.dart';
 import 'package:chat_app/screens/home/home.dart';
 import 'package:chat_app/services/auth.dart';
+import 'package:chat_app/services/database.dart';
+import 'package:chat_app/shared/colors.dart';
 import 'package:chat_app/shared/components/default_app_bar.dart';
 import 'package:chat_app/shared/shared.dart';
 import 'package:chat_app/shared/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ChooseUserName extends StatefulWidget {
-  const ChooseUserName({ Key key, @required this.user, @required this.auth }) : super(key: key);
+  ChooseUserName({ Key key, @required this.user,}) : super(key: key);
 
   final UserModel user;
-  final Auth auth;
+  final Auth auth = Auth();
 
   @override
   _ChooseUserNameState createState() => _ChooseUserNameState();
@@ -24,17 +27,19 @@ class _ChooseUserNameState extends State<ChooseUserName> {
   String emailVerificationCode = "";
   String tempUsername = "";
   String tempUserNameId = "";
+  Database database = Database();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-
+    
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: defaultAppBar(
         actions: 
         [
-          LogoutIconButton(auth: widget.auth),
+          LogoutIconButton(),
         ],
         bottom: null
       ),
@@ -48,7 +53,7 @@ class _ChooseUserNameState extends State<ChooseUserName> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 150,),
+              const SizedBox(height: 182,),
               Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding,
@@ -56,7 +61,7 @@ class _ChooseUserNameState extends State<ChooseUserName> {
                 height: 180,
                 margin: EdgeInsets.symmetric(horizontal: size.width < size.height ? 0 : size.width * 0.17 ),
                 decoration: BoxDecoration(
-                  color: kThemeColor.withAlpha(60),
+                  color: kContainerColor,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Column(
@@ -90,7 +95,7 @@ class _ChooseUserNameState extends State<ChooseUserName> {
                             text: "####", 
                             onChanged: (value) => setState(() => tempUserNameId = value), 
                             isPw: false,
-                            inputType: TextInputType.number,
+                            inputType: const TextInputType.numberWithOptions(),
                           ),
                         ),
                       ],
@@ -115,36 +120,57 @@ class _ChooseUserNameState extends State<ChooseUserName> {
                 ),
               ),
               const SizedBox(height: 15,),
-              LogBigButton( // set username
+              _isLoading ? LogBigButtonLoading(color: kAccentColor) : LogBigButton( // set username
               text: "Set Username",
-              press: ()
+              press: () async
               {
                 if(tempUserNameId.length == 4 && RegExp(r'^[0-9]+$').hasMatch(tempUserNameId))
                 {
-                  if(tempUsername.length > 2)
+                  if(tempUsername.length >= 3 && tempUsername.length <= 35)
                   {
-                    // check if username#id exists in db, 
-                    //if not: set temps to User and pushRepl.: Home()
-                    customSnackBar(
-                      context: context,
-                      type: 1,
-                      text: "Username and ID have been successfully set!",
-                    );
-                    Navigator.pushReplacement(context, 
-                      MaterialPageRoute(
-                        builder: (context) => Home(
-                          auth: widget.auth, 
-                          user: widget.user 
-                        )
-                      )
-                    );
+                    setState(() => _isLoading = true);
+                    bool okIfFalse = await database.doesUsernameAndIdAlreadyExist(tempUsername, tempUserNameId);
+                    // and if verification code has match
+                    if (!okIfFalse) 
+                    {
+                      var result = await Database(uid: widget.user.uid).createUser(tempUsername, tempUserNameId);
+                      {
+                        customSnackBar(
+                          context: context,
+                          type: 1,
+                          text: "Username and ID have been successfully set!",
+                        );
+                        widget.user.username = tempUsername;
+                        widget.user.usernameId = tempUserNameId;
+                        
+                        setState(() => _isLoading = false);
+
+                        Navigator.pushReplacement(context, 
+                          MaterialPageRoute(
+                            builder: (context) => Home(
+                              user: widget.user 
+                            )
+                          )
+                        );
+                      }
+                    } 
+                    else 
+                    {
+                      setState(() => _isLoading = false);
+                      customSnackBar(
+                        context: context,
+                        type: -1,
+                        // line below might be too long!
+                        text: "Username and ID pair is already in use!",
+                      );
+                    }
                   }
                   else
                   {
                     customSnackBar(
                       context: context, 
                       type: -1, 
-                      text: "Username must be 3 to 30 characters long!",
+                      text: "Username must be 3 to 35 characters long!",
                     );
                   }
                 }

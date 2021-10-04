@@ -3,20 +3,19 @@ import 'package:chat_app/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class LogoutIconButton extends StatelessWidget {
-  const LogoutIconButton({
+  LogoutIconButton({
     Key key,
-    @required this.auth,
   }) : super(key: key);
 
-  final Auth auth;
+  final Auth auth = Auth();
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
      icon: const Icon(Icons.exit_to_app_rounded),
-      onPressed: () 
+      onPressed: () async
       {
-        auth.signOut();
+        await auth.signOut();
         Navigator.pushReplacement(context, 
           MaterialPageRoute(
             builder: (context) => const LogTabs(),
