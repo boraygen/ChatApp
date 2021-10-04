@@ -1,10 +1,32 @@
 
+import 'package:chat_app/models/friend_model.dart';
+
 class UserModel
 {
-  final String uid;
+  String uid;
   String username;
-  int usernameId;
-  bool isUsernameSet = false;
+  String usernameId;
+  String pictureRef;
+  List<String> friendsUid;
+  List<FriendModel> friends;
+  String status;
+  List<String> friendRequests;
+  List<String> blocked;
 
-  UserModel({this.uid});
+  UserModel(
+    {
+      this.uid, 
+      this.username, 
+      this.usernameId, 
+      this.friendsUid, 
+      this.status,
+      this.friendRequests,
+      this.blocked,
+      this.friends
+    }
+  );
+  // UserModel({this.uid, })
+  // {
+    
+  // }
 }

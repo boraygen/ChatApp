@@ -2,20 +2,19 @@ import 'package:chat_app/screens/authentication/choose_user_name.dart';
 import 'package:chat_app/screens/authentication/components/log_big_button.dart';
 import 'package:chat_app/screens/authentication/components/log_big_button_loading.dart';
 import 'package:chat_app/screens/authentication/components/log_form_field.dart';
-import 'package:chat_app/screens/authentication/components/log_subtitle.dart';
 import 'package:chat_app/screens/authentication/components/log_underlined_text_button.dart';
 import 'package:chat_app/screens/authentication/components/show_hide_password_icon_button.dart';
-import 'package:chat_app/screens/home/home.dart';
 import 'package:chat_app/services/auth.dart';
+import 'package:chat_app/shared/colors.dart';
 import 'package:chat_app/shared/shared.dart';
 import 'package:chat_app/shared/widgets.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({ Key key, @required this.tabController, @required this.auth, }) : super(key: key);
+  SignUp({ Key key, @required this.tabController,}) : super(key: key);
 
   final TabController tabController;
-  final Auth auth;
+  final Auth auth = Auth();
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -101,7 +100,7 @@ class _SignUpState extends State<SignUp> {
               press: () async
               {
                 Feedback.forTap(context);
-                if(validateBeforeLog(context, upEmail, upPw, upPwConfirm) == true)
+                if(validateBeforeLog(context, upEmail.trim(), upPw, upPwConfirm) == true)
                 {
                   setState(() => isLoadingEmail = true);
                   // widget.auth.signUpWithEmailAndPw(upEmail, upPw).then(
@@ -110,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                   //     setState(() => isLoading = false);
                   //   }
                   // );
-                  var result = await widget.auth.signUpWithEmailAndPw(context, upEmail, upPw);
+                  var result = await widget.auth.signUpWithEmailAndPw(context, upEmail.trim(), upPw);
                   if (result == null)
                   {
                     setState(() => isLoadingEmail = false);
@@ -123,7 +122,7 @@ class _SignUpState extends State<SignUp> {
                       type: 1, 
                       text: "Registered successfully!"
                     );
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChooseUserName(user: result, auth: widget.auth,)));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChooseUserName(user: result)));
                   }
                 }
               },

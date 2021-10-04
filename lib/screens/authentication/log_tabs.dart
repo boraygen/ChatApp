@@ -1,9 +1,7 @@
-
 import 'package:chat_app/screens/authentication/sign_in.dart';
 import 'package:chat_app/screens/authentication/sign_up.dart';
 import 'package:chat_app/services/auth.dart';
 import 'package:chat_app/shared/components/default_app_bar.dart';
-import 'package:chat_app/shared/shared.dart';
 import 'package:flutter/material.dart';
 
 class LogTabs extends StatefulWidget {
@@ -49,8 +47,8 @@ class _LogTabsState extends State<LogTabs> with SingleTickerProviderStateMixin{
       body: TabBarView(
         controller: _tabController,
         children: [
-          SignIn(tabController: _tabController, auth: auth),
-          SignUp(tabController: _tabController, auth: auth)
+          SignIn(tabController: _tabController,),
+          SignUp(tabController: _tabController,)
         ],
       ),
     );

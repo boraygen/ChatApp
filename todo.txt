@@ -1,0 +1,8 @@
+LONG TERM: 
+- toggle multi select anything in friends_tab on long press
+- menuDrawer at home: Profile, Settings, Logout...
+- timed messages: schedule a message
+
+SHORT TERM:
+- user should be able to block someone in friend requests
+- friends in alphabetic order: use UserModel class. get friends from doc and then order in the UserModel

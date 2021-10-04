@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:chat_app/shared/colors.dart';
 import 'package:chat_app/shared/shared.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class MessageRoomTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    Random random = Random();
     final size = MediaQuery.of(context).size;
 
     return ElevatedButton(
@@ -30,7 +32,16 @@ class MessageRoomTile extends StatelessWidget {
         height: 69,
         child: Row(
           children: [
-            const Icon(Icons.account_circle_rounded, size: 50,),
+            //const Icon(Icons.account_circle_rounded, size: 50,),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(17),
+              child: Image.asset(
+                "assets/dummyLogos/dummyChatLogo" "${random.nextInt(8)}" ".png",
+                height: 50,
+                width: 50,
+                fit: BoxFit.cover,
+                ),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 15),
               child: SizedBox(
@@ -58,7 +69,7 @@ class MessageRoomTile extends StatelessWidget {
                           child: Text(
                             "99/99/99",
                             style: TextStyle(
-                              color: kPrimaryTextColor.withOpacity(0.6),
+                              color: kAccentTextColor2,
                             ),
                           ),
                         ),
@@ -74,7 +85,7 @@ class MessageRoomTile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: 15,
-                              color: kPrimaryTextColor.withOpacity(0.8)
+                              color: kAccentTextColor1
                             ),  
                           ),
                         ),
@@ -83,7 +94,7 @@ class MessageRoomTile extends StatelessWidget {
                           child: Icon(
                             Icons.push_pin_outlined, 
                             size: 20,
-                            color: kPrimaryTextColor.withOpacity(0.6),
+                            color: kAccentTextColor2,
                           )
                         ),
                       ],

@@ -1,5 +1,5 @@
 import 'package:chat_app/screens/authentication/log_tabs.dart';
-import 'package:chat_app/shared/shared.dart';
+import 'package:chat_app/shared/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: kThemeColor,
           appBarTheme: AppBarTheme(
-            backgroundColor: kThemeColor.withAlpha(60),
+            backgroundColor: kAppBarColor,
             elevation: 0,
           ),
           
